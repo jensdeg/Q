@@ -1,1 +1,2 @@
-print("Hello Q");
+Print("Hello world");  
+Print(12);

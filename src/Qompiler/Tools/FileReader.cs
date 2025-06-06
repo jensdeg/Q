@@ -1,6 +1,6 @@
 ﻿namespace Qompiler.Tools
 {
-    public class FileFinder
+    public class FileReader
     {
         /// <summary>
         /// This is very specific to the Qompiler project structure.
@@ -9,7 +9,7 @@
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static string Find(string fileName)
+        private static string Find(string fileName)
         {
             var directoryPath = Environment.CurrentDirectory;
             if (directoryPath.Contains("bin"))
@@ -27,6 +27,13 @@
                 return new FileNotFoundException($"File {fullPath} not found").Message;
             }
             throw new NotImplementedException("Not supported Yet");
+        }
+
+        public static string Read(string filename)
+        {
+            var filePath = Find(filename);
+            using var reader = new StreamReader(filePath);
+            return reader.ReadToEnd();
         }
     }
 }
