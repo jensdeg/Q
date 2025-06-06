@@ -3,14 +3,19 @@ using Qompiler.Tools;
 
 // reading file
 if (args.Length == 0) return;
-var fileContent = FileReader.Read(args[0]);
+var fileContent = FileManager.Read(args[0]);
+var filename = args[0].Split('.')[0] += ".asm";
 
-//Compiling
+// Compiling
 Console.WriteLine($"Compiling {args[0]}{Environment.NewLine}");
 
 var tokens = Lexer.Tokenize(fileContent);
 var literals = Lexer.GetLiterals();
 var operations = Parser.Parse(tokens, literals);
+var Code = CodeGen.Generate(operations);
+
+// create file
+FileManager.WriteAsm(filename, Code);
 
 ConsoleWriter.Write("Literals", literals);
 ConsoleWriter.Write("Tokens", tokens);

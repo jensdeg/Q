@@ -4,10 +4,10 @@ namespace Qompiler
 {
     public static class Parser
     {
-        private static List<Tuple<Operation, object>> Operations = [];
+        private static List<Tuple<Operation, object?>> Operations = [];
         private static List<TokenType> Buf = [];
         private static int Index = 0;
-        public static List<Tuple<Operation, object>> Parse(List<TokenType> tokens, List<object> literals)
+        public static List<Tuple<Operation, object?>> Parse(List<TokenType> tokens, List<object> literals)
         {
             foreach (var token in tokens)
             {
@@ -39,7 +39,7 @@ namespace Qompiler
 
         private static void AddOperation(Operation operation, object value)
         {
-            Operations.Add(new Tuple<Operation, object>(operation, value));
+            Operations.Add(new Tuple<Operation, object?>(operation, value));
             Index++;
         }
     }

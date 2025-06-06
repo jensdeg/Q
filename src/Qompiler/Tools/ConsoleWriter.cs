@@ -10,7 +10,7 @@ namespace Qompiler.Tools
             list.ForEach(item => Console.WriteLine($" - {item}"));
             Console.WriteLine(string.Empty);
         }
-        public static void Write(string name, List<Tuple<Operation, object>> list)
+        public static void Write(string name, List<Tuple<Operation, object?>> list)
         {
             Console.WriteLine(name);
             list.ForEach(item => Console.WriteLine($" - {item.Item1}, Value: {item.Item2}"));

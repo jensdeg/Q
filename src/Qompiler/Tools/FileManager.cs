@@ -1,6 +1,6 @@
 ﻿namespace Qompiler.Tools
 {
-    public class FileReader
+    public class FileManager
     {
         /// <summary>
         /// This is very specific to the Qompiler project structure.
@@ -9,7 +9,7 @@
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        private static string Find(string fileName)
+        private static string Find(string fileName, bool createFile = false)
         {
             var directoryPath = Environment.CurrentDirectory;
             if (directoryPath.Contains("bin"))
@@ -20,8 +20,13 @@
             {
                 directoryPath = directoryPath.Substring(0, directoryPath.IndexOf("src", StringComparison.Ordinal));
                 var fullPath = directoryPath + @"examples\" + fileName;
-                if(File.Exists(fullPath))
+                if (File.Exists(fullPath))
                 {
+                    return fullPath;
+                }
+                if (createFile)
+                {
+                    File.Create(fullPath).Close();
                     return fullPath;
                 }
                 return new FileNotFoundException($"File {fullPath} not found").Message;
@@ -34,6 +39,13 @@
             var filePath = Find(filename);
             using var reader = new StreamReader(filePath);
             return reader.ReadToEnd();
+        }
+
+        public static void WriteAsm(string filename, string content)
+        {
+            var filePath = Find(filename, true);
+            using var writer = new StreamWriter(filePath, false);
+            writer.Write(content);
         }
     }
 }

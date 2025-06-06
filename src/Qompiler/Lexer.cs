@@ -27,7 +27,7 @@ namespace Qompiler
                 if (c == '(') AddToken(TokenType.Open_Parenthesis);
                 if (c == ')') AddToken(TokenType.Close_Parenthesis);
 
-                //tokenizing strings
+                // tokenizing strings
                 if (c == '"' && !instring)
                 {
                     AddToken(TokenType.Quotation);
@@ -41,7 +41,7 @@ namespace Qompiler
                     instring = false;
                 }
 
-                //tokenizing numbers
+                // tokenizing numbers
                 if(char.IsDigit(c) && !instring)
                 {
                     if (!char.IsDigit(Peek()))
