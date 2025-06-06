@@ -1,6 +1,4 @@
-﻿
-
-namespace Qompiler.types
+﻿namespace Qompiler.types
 {
     public enum Operation
     {

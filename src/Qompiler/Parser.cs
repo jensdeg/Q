@@ -1,5 +1,4 @@
 ﻿using Qompiler.types;
-using System.Runtime.InteropServices;
 
 namespace Qompiler
 {
@@ -18,7 +17,6 @@ namespace Qompiler
                     AddOperation(Buf.GetOperation(), literals[Index]);
                 }
             }
-            Console.WriteLine(Buf.Count);
             return Operations;
         }
         private static Operation GetOperation(this List<TokenType> tokens)

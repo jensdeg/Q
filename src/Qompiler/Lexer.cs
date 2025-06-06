@@ -78,7 +78,5 @@ namespace Qompiler
             if (index + 1 >= Input.Length) return char.MinValue;
             return Input[index + 1];
         }
-
-
     }
 }
