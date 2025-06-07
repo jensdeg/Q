@@ -9,7 +9,7 @@
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        private static string Find(string fileName, bool createFile = false)
+        public static string Find(string fileName, bool createFile = false)
         {
             var directoryPath = Environment.CurrentDirectory;
             if (directoryPath.Contains("bin"))
@@ -29,7 +29,7 @@
                     File.Create(fullPath).Close();
                     return fullPath;
                 }
-                return new FileNotFoundException($"File {fullPath} not found").Message;
+                return fullPath;
             }
             throw new NotImplementedException("Not supported Yet");
         }
@@ -43,7 +43,7 @@
 
         public static void WriteAsm(string filename, string content)
         {
-            var filePath = Find(filename, true);
+            var filePath = Find(filename += ".asm", true);
             using var writer = new StreamWriter(filePath, false);
             writer.Write(content);
         }
