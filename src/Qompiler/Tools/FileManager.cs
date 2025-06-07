@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Qompiler.Tools
+﻿namespace Qompiler.Tools
 {
     public class FileManager
     {
