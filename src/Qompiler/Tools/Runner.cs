@@ -19,7 +19,7 @@ namespace Qompiler.Tools
             cmd.StartInfo.UseShellExecute = false;
             cmd.Start();
 
-            cmd.StandardInput.WriteLine($"cd {NasmLocation}");
+            cmd.StandardInput.WriteLine($"cd {NasmLocation}/{filename}");
             cmd.StandardInput.WriteLine(commandToExecute);
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Qompiler.Tools
+﻿using System.Globalization;
+
+namespace Qompiler.Tools
 {
     public class FileManager
     {
@@ -43,8 +45,9 @@
 
         public static void WriteAsm(string filename, string content)
         {
-            var filePath = Find(filename += ".asm", true);
-            using var writer = new StreamWriter(filePath, false);
+            var Location = Find("") + $"/{filename}";
+            Directory.CreateDirectory(Location);
+            using var writer = new StreamWriter($"{Location}/{filename}.asm", false);
             writer.Write(content);
         }
     }
