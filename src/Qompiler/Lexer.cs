@@ -9,8 +9,6 @@ namespace Qompiler
 
         private static readonly List<Token> Tokens = [];
 
-        private static readonly List<string> Variables = [];
-
         private static int index = 0;
 
         private static string Input = string.Empty;
