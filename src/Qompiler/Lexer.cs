@@ -39,7 +39,10 @@ namespace Qompiler
                         AddToken(TokenType.Var);
                         InVariableName = true;
                     }
-                    if(Tokens.Select(t => t?.Literal?.Value).Contains(buf))
+                    if (Tokens
+                        .Where(t => t?.Literal?.IsVariable == true)
+                        .Select(t => t?.Literal?.Value)
+                        .Contains(buf))
                     {
                         AddToken(TokenType.Variable_Literal, Literal.CreateVariable(buf));
                     }
