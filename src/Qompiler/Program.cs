@@ -10,18 +10,16 @@ var filename = args[0].Split('.')[0];
 Console.WriteLine($"Compiling {args[0]}{Environment.NewLine}");
 
 var tokens = Lexer.Tokenize(fileContent);
-var literals = Lexer.GetLiterals();
-var operations = Parser.Parse(tokens, literals);
-var Code = CodeGen.Generate(operations);
+var operations = Parser.Parse(tokens);
+var code = CodeGen.Generate(operations);
 
-// create file
-FileManager.WriteAsm(filename, Code);
+// Create file
+FileManager.WriteAsm(filename, code);
 
-// running assembly
+// Running assembly
 Runner.RunAssembly(filename);
 
 
-//ConsoleWriter.Write("Literals", literals);
 //ConsoleWriter.Write("Tokens", tokens);
 //ConsoleWriter.Write("Operations", operations);
 

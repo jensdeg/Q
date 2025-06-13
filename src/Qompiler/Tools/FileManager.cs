@@ -14,11 +14,11 @@
             var directoryPath = Environment.CurrentDirectory;
             if (directoryPath.Contains("bin"))
             {
-                directoryPath = directoryPath.Substring(0, directoryPath.IndexOf("bin", StringComparison.Ordinal));
+                directoryPath = directoryPath[..directoryPath.IndexOf("bin", StringComparison.Ordinal)];
             }
             if (directoryPath.Contains('Q'))
             {
-                directoryPath = directoryPath.Substring(0, directoryPath.IndexOf("src", StringComparison.Ordinal));
+                directoryPath = directoryPath[..directoryPath.IndexOf("src", StringComparison.Ordinal)];
                 var fullPath = directoryPath + @"examples\" + fileName;
                 if (File.Exists(fullPath))
                 {

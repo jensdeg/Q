@@ -1,4 +1,5 @@
 ﻿using Qompiler.types;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Qompiler
 {
@@ -6,26 +7,53 @@ namespace Qompiler
     {
         private static string buf = string.Empty;
 
-        private static readonly List<TokenType> Tokens = [];
+        private static readonly List<Token> Tokens = [];
 
-        private static readonly List<object> Literals = [];
+        private static readonly List<string> Variables = [];
 
         private static int index = 0;
 
         private static string Input = string.Empty;
-        public static List<TokenType> Tokenize(string input)
+        public static List<Token> Tokenize(string input)
         {
             bool instring = false;
+            bool InVariableName = false;
             Input = input;
+            var variableValue = string.Empty;
+            var variableName = string.Empty;
 
             foreach (char c in Input)
             {
                 buf += c;
+                
+                
+                if (!instring && !InVariableName)
+                {
+                    // basic tokens
+                    if (c == ';') AddToken(TokenType.Semicolon);
+                    if (c == '(') AddToken(TokenType.Open_Parenthesis);
+                    if (c == ')') AddToken(TokenType.Close_Parenthesis);
+                    if (c == '=') AddToken(TokenType.Equals);
 
-                // basic tokens
-                if (c == ';') AddToken(TokenType.Semicolon);
-                if (c == '(') AddToken(TokenType.Open_Parenthesis);
-                if (c == ')') AddToken(TokenType.Close_Parenthesis);
+                    // reading buffer
+                    if (buf == "Print") AddToken(TokenType.Print);
+                    if (buf == "var")
+                    {
+                        AddToken(TokenType.Var);
+                        InVariableName = true;
+                    }
+                    if(Tokens.Select(t => t?.Literal?.Value).Contains(buf))
+                    {
+                        AddToken(TokenType.Variable_Literal, Literal.CreateVariable(buf));
+                    }
+                }
+                if (InVariableName && c == '=') 
+                {
+                    variableName = buf[..^1].TrimEnd();
+                    AddToken(TokenType.Variable_Name, Literal.CreateVariable(variableName));
+                    AddToken(TokenType.Equals);
+                    InVariableName = false;
+                }
 
                 // tokenizing strings
                 if (c == '"' && !instring)
@@ -35,42 +63,38 @@ namespace Qompiler
                 }
                 else if (c == '"' && instring)
                 {
-                    Literals.Add(buf.Remove(buf.Count() - 1));
-                    AddToken(TokenType.String_Literal);
+                    var stringValue = buf[..^1];
+                    AddToken(TokenType.String_Literal, Literal.Create(stringValue));
                     AddToken(TokenType.Quotation);
                     instring = false;
                 }
 
+                //TODO: fix for calling variable names in code with numbers
                 // tokenizing numbers
-                if(char.IsDigit(c) && !instring)
+                if(char.IsDigit(c) && !instring && !InVariableName)
                 {
                     if (!char.IsDigit(Peek()))
                     {
-                        Literals.Add(buf);
-                        AddToken(TokenType.Number_Literal);
+                        var digitValue = buf;
+                        AddToken(TokenType.Number_Literal, Literal.Create(digitValue));
                     }              
                 }
 
-
-                // reading buffer
-                if (buf == "Print")AddToken(TokenType.Print);
                 if (buf == Environment.NewLine) buf = string.Empty;
                 if (string.IsNullOrWhiteSpace(buf) && !instring) buf = string.Empty;
-
                 index++;
             }
             return Tokens;
         }
 
-        public static List<object> GetLiterals()
-        {
-            return Literals;
-        }
-
         private static void AddToken(TokenType tokenType)
         {
-            Tokens.Add(tokenType);
+            Tokens.Add(Token.Create(tokenType));
             buf = string.Empty;
+        }
+        private static void AddToken(TokenType tokenType, Literal value)
+        {
+            Tokens.Add(Token.Create(tokenType, value));
         }
 
         private static char Peek()

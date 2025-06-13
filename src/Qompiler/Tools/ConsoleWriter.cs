@@ -4,24 +4,23 @@ namespace Qompiler.Tools
 {
     public static class ConsoleWriter
     {
-        public static void Write(string name, List<object> list)
+        public static void Write(string name, List<Literal> list)
         {
             Console.WriteLine($"{name}");
-            list.ForEach(item => Console.WriteLine($" - {item}"));
+            list.ForEach(item => Console.WriteLine($" - {item.Value}"));
             Console.WriteLine(string.Empty);
         }
-        public static void Write(string name, List<Tuple<Operation, object?>> list)
+        public static void Write(string name, List<Operation> operations)
         {
             Console.WriteLine(name);
-            list.ForEach(item => Console.WriteLine($" - {item.Item1}, Value: {item.Item2}"));
+            operations.ForEach(o => Console.WriteLine(o));
             Console.WriteLine(string.Empty);
         }
-        public static void Write(string name, List<TokenType> list)
+        public static void Write(string name, List<Token> tokens)
         {
             Console.WriteLine(name);
-            list.ForEach(item => Console.WriteLine($" - {item}"));
+            tokens.ForEach(t => Console.WriteLine(t));
             Console.WriteLine(string.Empty);
         }
-
     }
 }
