@@ -8,15 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="LexerTests\Qfiles\Print.Q" />
-    <None Remove="LexerTests\Qfiles\Variable.Q" />
+    <None Remove="Qfiles\Print.Q" />
+    <None Remove="Qfiles\Variable.Q" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="LexerTests\Qfiles\Print.Q">
+    <Content Include="Qfiles\Print.Q">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="LexerTests\Qfiles\Variable.Q">
+    <Content Include="Qfiles\Variable.Q">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

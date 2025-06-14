@@ -1,6 +1,6 @@
 ﻿using Qompiler.types;
 
-namespace Qompiler.Test.LexerTests.Fixtures
+namespace Qompiler.Test.Fixtures
 {
     public static class TokenFixture
     {
@@ -37,7 +37,5 @@ namespace Qompiler.Test.LexerTests.Fixtures
             TokenType.Number_Literal,
             TokenType.Semicolon
         ];
-
-
     }
 }

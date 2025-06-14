@@ -1,14 +1,13 @@
 ﻿using FluentAssertions;
-using Qompiler;
-using Qompiler.Test.LexerTests.Fixtures;
+using Qompiler.Test.Fixtures;
 using Qompiler.types;
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
-namespace Qompiler.Test.LexerTests
+namespace Qompiler.Test
 {
     public class LexerShould
     {
-        private readonly string FilePath = "./LexerTests/Qfiles/";
+        private readonly string FilePath = "./Qfiles/";
 
         public LexerShould()
         {
