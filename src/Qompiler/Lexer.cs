@@ -102,5 +102,13 @@ namespace Qompiler
             if (index + 1 >= Input.Length) return char.MinValue;
             return Input[index + 1];
         }
+
+        public static void Clear()
+        {
+            buf = string.Empty;
+            Tokens.Clear();
+            index = 0;
+            Input = string.Empty;
+        }
     }
 }
