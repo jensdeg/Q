@@ -37,5 +37,19 @@ namespace Qompiler.Test
             operations.Should().NotBeEmpty();
             operations.Should().Equal(expectedOperations);
         }
+
+        [Fact]
+        public void ParsePrintVariable()
+        {
+            // Arrange
+            var expectedOperations = OperationFixture.PrintVariable;
+
+            // Act
+            var operations = Parser.Parse(TokenFixture.PrintVariable);
+
+            // Assert
+            operations.Should().NotBeEmpty();
+            operations.Should().Equal(expectedOperations);
+        }
     }
 }

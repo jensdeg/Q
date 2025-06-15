@@ -9,14 +9,17 @@
 
   <ItemGroup>
     <None Remove="Qfiles\Print.Q" />
-    <None Remove="Qfiles\Variable.Q" />
+    <None Remove="Qfiles\PrintVariable.Q" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Qfiles\Print.Q">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Qfiles\Variable.Q">
+    <Content Include="Qfiles\PrintVariable.Q">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Qfiles\VariableAssignment.Q">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

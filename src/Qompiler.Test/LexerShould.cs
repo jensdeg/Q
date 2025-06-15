@@ -33,8 +33,23 @@ namespace Qompiler.Test
         public void TokenizeVariableAssignment()
         {
             // Arrange
-            var content = ReadFile("Variable.Q");
+            var content = ReadFile("VariableAssignment.Q");
             var expectedTokens = TokenFixture.VariableAssignment;
+
+            // Act
+            var tokens = Lexer.Tokenize(content);
+
+            // Assert
+            tokens.Should().NotBeEmpty();
+            tokens.Should().Equal(expectedTokens);
+        }
+
+        [Fact]
+        public void TokenizePrintVariable()
+        {
+            // Arrange
+            var content = ReadFile("PrintVariable.Q");
+            var expectedTokens = TokenFixture.PrintVariable;
 
             // Act
             var tokens = Lexer.Tokenize(content);

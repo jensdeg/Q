@@ -36,6 +36,23 @@ namespace Qompiler.Test.Fixtures
             Token.Create(TokenType.Equals),
             Token.Create(TokenType.Number_Literal, Literal.Create("12345")),
             Token.Create(TokenType.Semicolon)
-        ];       
+        ];
+
+        public static readonly List<Token> PrintVariable = [
+            // variable
+            Token.Create(TokenType.Var),
+            Token.Create(TokenType.Variable_Name, Literal.CreateVariable("Hello")),
+            Token.Create(TokenType.Equals),
+            Token.Create(TokenType.Quotation),
+            Token.Create(TokenType.String_Literal, Literal.Create("Hello World")),
+            Token.Create(TokenType.Quotation),
+            Token.Create(TokenType.Semicolon),
+            // print
+            Token.Create(TokenType.Print),
+            Token.Create(TokenType.Open_Parenthesis),
+            Token.Create(TokenType.Variable_Literal, Literal.CreateVariable("Hello")),
+            Token.Create(TokenType.Close_Parenthesis),
+            Token.Create(TokenType.Semicolon),
+        ];
     }
 }
