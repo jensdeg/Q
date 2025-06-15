@@ -23,6 +23,17 @@
             return $"- {Type}{Environment.NewLine} " +
                 $"{literals}";
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Operation operation) return false;
+            return Type == operation.Type &&
+                   Literal.SequenceEqual(operation.Literal);
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Type, Literal);
+        }
     }
 
     public static class Operations

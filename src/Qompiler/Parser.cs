@@ -59,5 +59,11 @@ namespace Qompiler
                 tokens.Remove(token);
             }
         }
+
+        public static void Clear()
+        {
+            _Operations.Clear();
+            Buf.Clear();
+        }
     }
 }

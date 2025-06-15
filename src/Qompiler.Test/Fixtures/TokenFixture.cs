@@ -4,38 +4,38 @@ namespace Qompiler.Test.Fixtures
 {
     public static class TokenFixture
     {
-        public static readonly TokenType[] Print = [
+        public static readonly List<Token> Print = [
             // print string
-            TokenType.Print,
-            TokenType.Open_Parenthesis,
-            TokenType.Quotation,
-            TokenType.String_Literal,
-            TokenType.Quotation,
-            TokenType.Close_Parenthesis,
-            TokenType.Semicolon,
+            Token.Create(TokenType.Print),
+            Token.Create(TokenType.Open_Parenthesis),
+            Token.Create(TokenType.Quotation),
+            Token.Create(TokenType.String_Literal, Literal.Create("Test")),
+            Token.Create(TokenType.Quotation),
+            Token.Create(TokenType.Close_Parenthesis),
+            Token.Create(TokenType.Semicolon),
             // print number
-            TokenType.Print,
-            TokenType.Open_Parenthesis,
-            TokenType.Number_Literal,
-            TokenType.Close_Parenthesis,
-            TokenType.Semicolon
+            Token.Create(TokenType.Print),
+            Token.Create(TokenType.Open_Parenthesis),
+            Token.Create(TokenType.Number_Literal, Literal.Create("12345")),
+            Token.Create(TokenType.Close_Parenthesis),
+            Token.Create(TokenType.Semicolon)
         ];
 
-        public static readonly TokenType[] VariableAssignment = [
+        public static readonly List<Token> VariableAssignment = [
             // string
-            TokenType.Var,
-            TokenType.Variable_Name,
-            TokenType.Equals,
-            TokenType.Quotation,
-            TokenType.String_Literal,
-            TokenType.Quotation,
-            TokenType.Semicolon,
+            Token.Create(TokenType.Var),
+            Token.Create(TokenType.Variable_Name, Literal.CreateVariable("TestVariable")),
+            Token.Create(TokenType.Equals),
+            Token.Create(TokenType.Quotation),
+            Token.Create(TokenType.String_Literal, Literal.Create("TestString")),
+            Token.Create(TokenType.Quotation),
+            Token.Create(TokenType.Semicolon),
             // number
-            TokenType.Var,
-            TokenType.Variable_Name,
-            TokenType.Equals,
-            TokenType.Number_Literal,
-            TokenType.Semicolon
-        ];
+            Token.Create(TokenType.Var),
+            Token.Create(TokenType.Variable_Name, Literal.CreateVariable("TestNumber")),
+            Token.Create(TokenType.Equals),
+            Token.Create(TokenType.Number_Literal, Literal.Create("12345")),
+            Token.Create(TokenType.Semicolon)
+        ];       
     }
 }

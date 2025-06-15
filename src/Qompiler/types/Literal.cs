@@ -9,5 +9,16 @@
             => new() { Value = value };
         public static Literal CreateVariable(object value)
            => new() { Value = value, IsVariable = true };
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Literal literal) return false;
+            return literal.Value.Equals(Value) &&
+                   literal.IsVariable == IsVariable;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Value, IsVariable);
+        }
     }
 }

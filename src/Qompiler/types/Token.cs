@@ -16,6 +16,28 @@
             if (Literal != null) return $" - {Type} -> {Literal.Value}";
             else return $" - {Type}";
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Token token) return false;
+            if(Literal is null && token.Literal is null)
+            {
+                return Type == token.Type;
+            }
+            else if (Literal is null || token.Literal is null)
+            {
+                return false;
+            }
+            return Type == token.Type &&
+                   Literal.Equals(token.Literal);
+        }
+
+        public override int GetHashCode()
+        {
+            if (Literal is null)
+                return Type.GetHashCode();
+            return HashCode.Combine(Type, Literal);
+        }
     }
 
     public enum TokenType
