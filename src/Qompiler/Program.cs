@@ -1,4 +1,5 @@
 ﻿using Qompiler;
+using Qompiler.CodeGen;
 using Qompiler.Tools;
 
 // reading file
@@ -11,7 +12,7 @@ Console.WriteLine($"Compiling {args[0]}{Environment.NewLine}");
 
 var tokens = Lexer.Tokenize(fileContent);
 var operations = Parser.Parse(tokens);
-var code = CodeGen.Generate(operations);
+var code = Nasm.Generate(operations);
 
 // Create file
 FileManager.WriteAsm(filename, code);

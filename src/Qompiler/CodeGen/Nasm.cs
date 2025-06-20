@@ -10,7 +10,6 @@ namespace Qompiler.CodeGen
         //TODO: better data assignemnt for literals dont have a varibale assignment
         private static readonly string Variables = "abcdefghijklmopqrstuvwxyz";
 
-        
         public static string Generate(List<Operation> operations)
         {
             // start
@@ -21,12 +20,18 @@ namespace Qompiler.CodeGen
             Content += GetOperations(operations);
 
             // exit
+            Content += "    ;; EXIT" + Environment.NewLine;
             Content += "    mov rax, 60" + Environment.NewLine;
             Content += "    mov rdi, 0" + Environment.NewLine;
             Content += "    syscall" + Environment.NewLine;
 
+            // Methods
+            Content += ";; METHODS" + Environment.NewLine;
+            Content += GetMethods(operations);
+
             // data
-            Content += "section .data:" + Environment.NewLine;
+            Content += ";; DATA" + Environment.NewLine;
+            Content += "section .data" + Environment.NewLine;
             Content += GetVariableData(operations);
 
             return Content;
@@ -51,18 +56,14 @@ namespace Qompiler.CodeGen
                         variableName = literal.Value.ToString();
                     }
 
-                    operationContent += $"    mov rax, 1 {Environment.NewLine}";
-                    operationContent += $"    mov rdi, 1 {Environment.NewLine}";
-                    operationContent += $"    mov rsi, {variableName} {Environment.NewLine}";
-                    operationContent += $"    mov rdx, {variableName}len {Environment.NewLine}";
-                    operationContent += $"    syscall {Environment.NewLine}";
+                    operationContent += $"    mov rsi, {variableName}" + Environment.NewLine;
+                    operationContent += $"    mov rdx, {variableName}len" + Environment.NewLine;
+                    operationContent += $"    call print" + Environment.NewLine;
                 }
             }
             VariableIndex = 0;
             return operationContent;
         }
-
-
         private static string GetVariableData(List<Operation> operations)
         {
             var literals = operations
@@ -100,6 +101,20 @@ namespace Qompiler.CodeGen
             }
             VariableIndex = 0;
             return dataSectionContent;
+        }
+        private static string GetMethods(List<Operation> operations)
+        {
+            var methodContent = string.Empty;
+            var operationTypes = operations.Select(o => o.Type);
+            if (operationTypes.Contains(OperationType.Print))
+            {
+                methodContent += "print:" + Environment.NewLine;
+                methodContent += "    mov rax, 1" + Environment.NewLine;
+                methodContent += "    mov rdi, 1" + Environment.NewLine;
+                methodContent += "    syscall" + Environment.NewLine;
+                methodContent += "    ret" + Environment.NewLine;
+            }
+            return methodContent;
         }
     }
 }
