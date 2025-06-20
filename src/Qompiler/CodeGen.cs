@@ -55,8 +55,8 @@ namespace Qompiler
                         variableName = literal.Value.ToString();
                     }
 
-                    operationContent += $"    mov rdi, 1 {Environment.NewLine}";
                     operationContent += $"    mov rax, 1 {Environment.NewLine}";
+                    operationContent += $"    mov rdi, 1 {Environment.NewLine}";
                     operationContent += $"    mov rsi, {variableName} {Environment.NewLine}";
                     operationContent += $"    mov rdx, {variableName}len {Environment.NewLine}";
                     operationContent += $"    syscall {Environment.NewLine}";
