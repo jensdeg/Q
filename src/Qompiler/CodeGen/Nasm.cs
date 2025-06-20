@@ -1,8 +1,8 @@
 ﻿using Qompiler.types;
 
-namespace Qompiler
+namespace Qompiler.CodeGen
 {
-    public class CodeGen
+    public class Nasm // x86-64
     {
         private static string Content = string.Empty;
         private static int VariableIndex = 0;
@@ -10,11 +10,7 @@ namespace Qompiler
         //TODO: better data assignemnt for literals dont have a varibale assignment
         private static readonly string Variables = "abcdefghijklmopqrstuvwxyz";
 
-        /// <summary>
-        /// x86-64 NASM
-        /// </summary>
-        /// <param name="operations"></param>
-        /// <returns></returns>
+        
         public static string Generate(List<Operation> operations)
         {
             // start
