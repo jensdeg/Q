@@ -10,4 +10,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
 	  <StartArguments>"main.Q"</StartArguments>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JensdegTools" Version="0.1.0" />
+  </ItemGroup>
 </Project>

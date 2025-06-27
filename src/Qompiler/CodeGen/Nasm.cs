@@ -1,45 +1,44 @@
-﻿using Qompiler.types;
+﻿using JensdegTools;
+using Qompiler.types;
+using System.Text;
 
 namespace Qompiler.CodeGen
 {
     public class Nasm // x86-64
     {
-        private static string Content = string.Empty;
-        private static int VariableIndex = 0;
-
-        //TODO: better data assignemnt for literals dont have a varibale assignment
-        private static readonly string Variables = "abcdefghijklmopqrstuvwxyz";
-
         public static string Generate(List<Operation> operations)
         {
-            // start
-            Content += "global _start" + Environment.NewLine;
-            Content += "_start:" + Environment.NewLine;
+            StringBuilder Content = new();
 
+            // start
+            Content.AppendLine("global _start");
+            Content.AppendLine("_start:");
+            
             // code
-            Content += GetOperations(operations);
+            Content.AppendLine(GetOperations(operations));
 
             // exit
-            Content += "    ;; EXIT" + Environment.NewLine;
-            Content += "    mov rax, 60" + Environment.NewLine;
-            Content += "    mov rdi, 0" + Environment.NewLine;
-            Content += "    syscall" + Environment.NewLine;
+            Content.AppendLine("    ;; EXIT");
+            Content.AppendLine("    mov rax, 60");
+            Content.AppendLine("    mov rdi, 0");
+            Content.AppendLine("    syscall");
 
             // Methods
-            Content += ";; METHODS" + Environment.NewLine;
-            Content += GetMethods(operations);
+            Content.AppendLine(";; METHODS");
+            Content.AppendLine(GetMethods(operations));
 
             // data
-            Content += ";; DATA" + Environment.NewLine;
-            Content += "section .data" + Environment.NewLine;
-            Content += GetVariableData(operations);
+            Content.AppendLine(";; DATA");
+            Content.AppendLine("section .data");
+            Content.AppendLine(GetVariableData(operations));
 
-            return Content;
+            return Content.ToString();
         }
 
         private static string GetOperations(List<Operation> operations)
         {
-            var operationContent = string.Empty;
+            StringBuilder operationContent = new();
+            var variableIndex = 1;
             foreach (var operation in operations) 
             {
                 var variableName = string.Empty;
@@ -48,29 +47,29 @@ namespace Qompiler.CodeGen
                     var literal = operation.Literal[0];
                     if (!literal.IsVariable)
                     {
-                        variableName = Variables[VariableIndex].ToString();
-                        VariableIndex++;
+                        variableName = variableIndex.ToLetters();
+                        variableIndex++;
                     }
                     else
                     {
                         variableName = literal.Value.ToString();
                     }
 
-                    operationContent += $"    mov rsi, {variableName}" + Environment.NewLine;
-                    operationContent += $"    mov rdx, {variableName}len" + Environment.NewLine;
-                    operationContent += $"    call print" + Environment.NewLine;
+                    operationContent.AppendLine($"    mov rsi, {variableName}");
+                    operationContent.AppendLine($"    mov rdx, {variableName}len");
+                    operationContent.AppendLine($"    call print");
                 }
             }
-            VariableIndex = 0;
-            return operationContent;
+            return operationContent.ToString();
         }
         private static string GetVariableData(List<Operation> operations)
         {
+            StringBuilder dataSectionContent = new();
+            var variableIndex = 1;
             var literals = operations
                 .Select(o => o.Literal)
                 .Where(l  => l != null)
                 .ToList();
-            var dataSectionContent = string.Empty;
 
             //TODO: possible issue when calling multiple variables the same name
             foreach (var OperationLiterals in literals)
@@ -89,32 +88,31 @@ namespace Qompiler.CodeGen
                     {
                         if(variableName == string.Empty)
                         {
-                            variableName = Variables[VariableIndex].ToString();
-                            VariableIndex++;
+                            variableName = variableIndex.ToLetters();
+                            variableIndex++;
                         }
                         //TODO: maybe dont convert numbers to variables and have a different flow for this?
                         variableValue = literal.Value.ToString();
                     }
-                    dataSectionContent += $"{variableName}: db '{variableValue}', 10" + Environment.NewLine;
-                    dataSectionContent += $"{variableName}len: equ $-{variableName}" + Environment.NewLine;
+                    dataSectionContent.AppendLine($"{variableName}: db '{variableValue}', 10");
+                    dataSectionContent.AppendLine($"{variableName}len: equ $-{variableName}");
                 }
             }
-            VariableIndex = 0;
-            return dataSectionContent;
+            return dataSectionContent.ToString();
         }
         private static string GetMethods(List<Operation> operations)
         {
-            var methodContent = string.Empty;
+            StringBuilder methodContent = new();
             var operationTypes = operations.Select(o => o.Type);
             if (operationTypes.Contains(OperationType.Print))
             {
-                methodContent += "print:" + Environment.NewLine;
-                methodContent += "    mov rax, 1" + Environment.NewLine;
-                methodContent += "    mov rdi, 1" + Environment.NewLine;
-                methodContent += "    syscall" + Environment.NewLine;
-                methodContent += "    ret" + Environment.NewLine;
+                methodContent.AppendLine("print:");
+                methodContent.AppendLine("    mov rax, 1");
+                methodContent.AppendLine("    mov rdi, 1");
+                methodContent.AppendLine("    syscall");
+                methodContent.AppendLine("    ret");
             }
-            return methodContent;
+            return methodContent.ToString();
         }
     }
 }
