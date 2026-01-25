@@ -22,8 +22,8 @@ namespace Qompiler
             foreach (char c in Input)
             {
                 buf += c;
-                
-                
+
+
                 if (!instring && !InVariableName)
                 {
                     // basic tokens
@@ -47,7 +47,7 @@ namespace Qompiler
                         AddToken(TokenType.Variable_Literal, Literal.CreateVariable(buf));
                     }
                 }
-                if (InVariableName && c == '=') 
+                if (InVariableName && c == '=')
                 {
                     variableName = buf[..^1].TrimEnd();
                     AddToken(TokenType.Variable_Name, Literal.CreateVariable(variableName));
@@ -71,13 +71,13 @@ namespace Qompiler
 
                 //TODO: fix for calling variable names in code with numbers
                 // tokenizing numbers
-                if(char.IsDigit(c) && !instring && !InVariableName)
+                if (char.IsDigit(c) && !instring && !InVariableName)
                 {
                     if (!char.IsDigit(Peek()))
                     {
                         var digitValue = buf;
                         AddToken(TokenType.Number_Literal, Literal.Create(digitValue));
-                    }              
+                    }
                 }
 
                 if (buf == Environment.NewLine) buf = string.Empty;

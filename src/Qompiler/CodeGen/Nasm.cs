@@ -13,7 +13,7 @@ namespace Qompiler.CodeGen
             // start
             Content.AppendLine("global _start");
             Content.AppendLine("_start:");
-            
+
             // code
             Content.AppendLine(GetOperations(operations));
 
@@ -39,10 +39,10 @@ namespace Qompiler.CodeGen
         {
             StringBuilder operationContent = new();
             var variableIndex = 1;
-            foreach (var operation in operations) 
+            foreach (var operation in operations)
             {
                 var variableName = string.Empty;
-                if(operation.Type == OperationType.Print)
+                if (operation.Type == OperationType.Print)
                 {
                     var literal = operation.Literal[0];
                     if (!literal.IsVariable)
@@ -68,7 +68,7 @@ namespace Qompiler.CodeGen
             var variableIndex = 1;
             var literals = operations
                 .Select(o => o.Literal)
-                .Where(l  => l != null)
+                .Where(l => l != null)
                 .ToList();
 
             //TODO: possible issue when calling multiple variables the same name
@@ -86,7 +86,7 @@ namespace Qompiler.CodeGen
                     }
                     else
                     {
-                        if(variableName == string.Empty)
+                        if (variableName == string.Empty)
                         {
                             variableName = variableIndex.ToLetters();
                             variableIndex++;

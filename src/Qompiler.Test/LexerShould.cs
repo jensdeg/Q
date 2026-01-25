@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Qompiler.Test.Fixtures;
-using Qompiler.types;
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace Qompiler.Test
@@ -19,7 +18,7 @@ namespace Qompiler.Test
         {
             // Arrange
             var content = ReadFile("Print.Q");
-            var expectedTokens= TokenFixture.Print;
+            var expectedTokens = TokenFixture.Print;
 
             // Act
             var tokens = Lexer.Tokenize(content);

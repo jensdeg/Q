@@ -20,7 +20,7 @@
         public override bool Equals(object? obj)
         {
             if (obj is not Token token) return false;
-            if(Literal is null && token.Literal is null)
+            if (Literal is null && token.Literal is null)
             {
                 return Type == token.Type;
             }
@@ -42,11 +42,11 @@
 
     public enum TokenType
     {
-        Open_Parenthesis, 
+        Open_Parenthesis,
         Close_Parenthesis,
         Print,
-        Quotation, 
-        Semicolon, 
+        Quotation,
+        Semicolon,
         String_Literal,
         Number_Literal,
         Variable_Literal,
