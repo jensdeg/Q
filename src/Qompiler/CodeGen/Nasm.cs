@@ -44,7 +44,7 @@ namespace Qompiler.CodeGen
                 var variableName = string.Empty;
                 if (operation.Type == OperationType.Print)
                 {
-                    var literal = operation.Literal[0];
+                    var literal = operation.Literals[0];
                     if (!literal.IsVariable)
                     {
                         variableName = variableIndex.ToLetters();
@@ -67,7 +67,7 @@ namespace Qompiler.CodeGen
             StringBuilder dataSectionContent = new();
             var variableIndex = 1;
             var literals = operations
-                .Select(o => o.Literal)
+                .Select(o => o.Literals)
                 .Where(l => l != null)
                 .ToList();
 
