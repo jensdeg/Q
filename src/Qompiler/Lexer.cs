@@ -18,29 +18,31 @@ public class Lexer
         {
             char c = Peek();
 
-            if (string.IsNullOrEmpty(c.ToString())) Consume();
+            if (c == '\n')
+                NextLine();
 
-            if (c == '"')
-            {
+            else if (char.IsWhiteSpace(c))
+                Consume();
+
+            else if (c == '"')
                 ReadString();
-                continue;
-            }
-            if (char.IsLetter(c))
-            {
-                ReadIdentifier();
-                continue;
-            }
 
-            switch (c)
+            else if (char.IsLetter(c))
+                ReadIdentifier();
+
+            else
             {
-                case ';': AddSimpleToken(TokenType.Semicolon); break;
-                case '(': AddSimpleToken(TokenType.OpenParenthesis); break;
-                case ')': AddSimpleToken(TokenType.CloseParenthesis); break;
-                case '=': AddSimpleToken(TokenType.Equals); break;
-                case '+': AddSimpleToken(TokenType.Plus); break;
-                default:
-                    Error($"Unexpected character '{c}' at line {_line}");
-                    break;
+                switch (c)
+                {
+                    case ';': AddSimpleToken(TokenType.Semicolon); break;
+                    case '(': AddSimpleToken(TokenType.OpenParenthesis); break;
+                    case ')': AddSimpleToken(TokenType.CloseParenthesis); break;
+                    case '=': AddSimpleToken(TokenType.Equals); break;
+                    case '+': AddSimpleToken(TokenType.Plus); break;
+                    default:
+                        Error($"Unexpected character '{c}' at line {_line}");
+                        break;
+                }
             }
         }
 
@@ -51,21 +53,15 @@ public class Lexer
     {
         var start = _index;
 
-        while (char.IsLetterOrDigit(Peek()))
-        {
+        while (char.IsLetterOrDigit(Peek()) || Peek() == '_')
             Consume();
-        }
 
         var value = _input[start.._index];
 
         if (Token.Keywords.TryGetValue(value, out var token))
-        {
             AddToken(token, start);
-        }
         else
-        {
             AddToken(TokenType.Identifier, start);
-        }
     }
 
     private void ReadString()
@@ -75,9 +71,7 @@ public class Lexer
         Consume(); // opening quote
 
         while (Peek() != '"')
-        {
             Consume();
-        }
 
         Consume(); // closing quote
 
@@ -108,10 +102,7 @@ public class Lexer
 
     private bool ReadingFile => _index < _input.Length;
 
-    private void Consume()
-    {
-        _index++;
-    }
+    private void Consume() => _index++;
 
     private char Peek(int offset = 0) => _input[_index + offset];
 

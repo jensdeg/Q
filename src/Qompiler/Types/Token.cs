@@ -5,13 +5,13 @@ public class Token
     public required TokenType Type { get; set; }
     public required string Lexeme { get; set; }
     public object? Value { get; set; }
-    public required int Position { get; set; }
+    public required int Line { get; set; }
 
-    public static Token Create(TokenType type, string lexeme, int position)
-        => new() { Type = type, Lexeme = lexeme, Position = position };
+    public static Token Create(TokenType type, string lexeme, int line)
+        => new() { Type = type, Lexeme = lexeme, Line = line };
 
-    public static Token CreateLiteral(TokenType type, string lexeme, object value, int position)
-        => new() { Type = type, Value = value, Lexeme = lexeme, Position = position };
+    public static Token CreateLiteral(TokenType type, string lexeme, object value, int line)
+        => new() { Type = type, Value = value, Lexeme = lexeme, Line = line };
 
     public readonly static Dictionary<string, TokenType> Keywords = new()
     {
