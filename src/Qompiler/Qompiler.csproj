@@ -17,8 +17,4 @@
 			<Visible>false</Visible>
 		</Content>
 	</ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="JensdegTools" Version="0.1.0" />
-  </ItemGroup>
 </Project>
