@@ -74,6 +74,9 @@ public class Lexer
         while (char.IsDigit(Peek()))
             Consume();
 
+        if (char.IsLetter(Peek()))
+            Error("Unexpected character in number");
+
         var value = int.Parse(_input[start.._index]);
 
         AddLiteralToken(TokenType.Number, start, value);
