@@ -40,7 +40,7 @@ public class Lexer
                     case '=': AddSimpleToken(TokenType.Equals); break;
                     case '+': AddSimpleToken(TokenType.Plus); break;
                     default:
-                        Error($"Unexpected character '{c}' at line {_line}");
+                        Error($"Unexpected character '{c}'");
                         break;
                 }
             }
@@ -84,7 +84,7 @@ public class Lexer
     {
         var start = _index;
         Consume();
-        string lexeme = GetLexeme(start);
+        var lexeme = GetLexeme(start);
         _tokens.Add(Token.Create(type, lexeme, _line));
     }
 
@@ -104,7 +104,12 @@ public class Lexer
 
     private void Consume() => _index++;
 
-    private char Peek(int offset = 0) => _input[_index + offset];
+    private char Peek(int offset = 0)
+    {
+        if (_index >= _input.Length)
+            Error($"Unexpected end of file");
+        return _input[_index + offset];
+    }
 
     private string GetLexeme(int start) => _input[start.._index];
 
@@ -114,9 +119,17 @@ public class Lexer
         _line++;
     }
 
-    private static void Error(string message)
+    private void Error(string message)
     {
-        Console.WriteLine(message);
+        var line = _input.Split(Environment.NewLine)[_line - 1];
+
+        Console.WriteLine($" | Error at line '{_line}':");
+        Console.WriteLine(" |    ...");
+        Console.WriteLine($" |    {line}");
+        Console.WriteLine(" |    ...");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"{message}");
+        Console.ResetColor();
         Environment.Exit(-1);
     }
 }

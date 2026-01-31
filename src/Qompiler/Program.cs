@@ -7,6 +7,12 @@ var filename = args[0].Split('.')[0];
 Console.WriteLine($"Compiling '{args[0]}'{Environment.NewLine}");
 var lexer = new Lexer();
 
-lexer.Tokenize(fileContent);
+var tokens = lexer.Tokenize(fileContent);
+
+foreach (var token in tokens)
+{
+    Console.WriteLine(token);
+    Console.WriteLine();
+}
 
 Console.WriteLine("Done");

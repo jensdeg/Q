@@ -15,9 +15,16 @@ public class Token
 
     public readonly static Dictionary<string, TokenType> Keywords = new()
     {
-        { "Print", TokenType.Print },
-        { "Var", TokenType.Var }
+        { nameof(TokenType.Print), TokenType.Print },
+        { nameof(TokenType.Var), TokenType.Var }
     };
+
+    public override string ToString()
+    {
+        return Value is null
+            ? $"[{Type}]: '{Lexeme}'"
+            : $"[{Type}]: '{Value}'";
+    }
 }
 
 public enum TokenType

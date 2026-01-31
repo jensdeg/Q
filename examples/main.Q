@@ -1,2 +1,2 @@
-Print("Hello World");
-Print("Te_st");
+var Test = "Hello World";
+Print(Test);
