@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-	  <StartArguments>"main.Q"</StartArguments>
+	  <StartArguments>"./main.Q"</StartArguments>
   </PropertyGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
