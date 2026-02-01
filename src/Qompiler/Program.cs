@@ -6,6 +6,7 @@ var filename = Path.GetFileName(args[0]);
 
 Console.WriteLine($"Compiling '{filename}'{Environment.NewLine}");
 var lexer = new Lexer();
+var parser = new Parser();
 
 var tokens = lexer.Tokenize(fileContent);
 
@@ -14,5 +15,7 @@ foreach (var token in tokens)
     Console.WriteLine(token);
     Console.WriteLine();
 }
+
+var statements = parser.Parse(tokens);
 
 Console.WriteLine("Done");

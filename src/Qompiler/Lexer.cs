@@ -42,6 +42,9 @@ public class Lexer
                     case ')': AddSimpleToken(TokenType.CloseParenthesis); break;
                     case '=': AddSimpleToken(TokenType.Equals); break;
                     case '+': AddSimpleToken(TokenType.Plus); break;
+                    case '*': AddSimpleToken(TokenType.Star); break;
+                    case '-': AddSimpleToken(TokenType.Minus); break;
+                    case '/': AddSimpleToken(TokenType.FSlash); break;
                     default:
                         Error($"Unexpected character '{c}'");
                         break;
@@ -49,6 +52,7 @@ public class Lexer
             }
         }
 
+        _tokens.Add(Token.Create(TokenType.EOF, string.Empty, _line));
         return _tokens;
     }
 
@@ -64,7 +68,7 @@ public class Lexer
         if (Token.Keywords.TryGetValue(value, out var token))
             AddToken(token, start);
         else
-            AddToken(TokenType.Identifier, start);
+            AddToken(TokenType.Identifier, start, value);
     }
 
     private void ReadNumber()
@@ -79,7 +83,7 @@ public class Lexer
 
         var value = int.Parse(_input[start.._index]);
 
-        AddLiteralToken(TokenType.Number, start, value);
+        AddToken(TokenType.Number, start, value);
     }
 
     private void ReadString()
@@ -93,9 +97,9 @@ public class Lexer
 
         Consume(); // closing quote
 
-        var value = _input[start..(_index)];
+        var value = _input[(start + 1)..(_index - 1)];
 
-        AddLiteralToken(TokenType.String, start, value);
+        AddToken(TokenType.String, start, value);
     }
 
     private void AddSimpleToken(TokenType type)
@@ -112,7 +116,7 @@ public class Lexer
         _tokens.Add(Token.Create(type, lexeme, _line));
     }
 
-    private void AddLiteralToken(TokenType type, int start, object value)
+    private void AddToken(TokenType type, int start, object value)
     {
         var lexeme = GetLexeme(start);
         _tokens.Add(Token.CreateLiteral(type, lexeme, value, _line));
@@ -141,12 +145,12 @@ public class Lexer
     {
         var line = _input.Split(Environment.NewLine)[_line - 1];
 
-        Console.WriteLine($" | Error at line '{_line}':");
-        Console.WriteLine(" |    ...");
-        Console.WriteLine($" |    {line}");
-        Console.WriteLine(" |    ...");
+        Console.Error.WriteLine($" | Error at line '{_line}':");
+        Console.Error.WriteLine(" |    ...");
+        Console.Error.WriteLine($" |    {line}");
+        Console.Error.WriteLine(" |    ...");
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"{message}");
+        Console.Error.WriteLine($"{message}");
         Console.ResetColor();
         Environment.Exit(-1);
     }

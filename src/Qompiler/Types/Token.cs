@@ -15,8 +15,8 @@ public class Token
 
     public readonly static Dictionary<string, TokenType> Keywords = new()
     {
-        { nameof(TokenType.Print), TokenType.Print },
-        { nameof(TokenType.Var), TokenType.Var }
+        { "Print", TokenType.Print },
+        { "var", TokenType.Var }
     };
 
     public override string ToString()
@@ -34,6 +34,9 @@ public enum TokenType
     Semicolon,
     Equals,
     Plus,
+    Minus,
+    Star,
+    FSlash,
 
     String,
     Number,

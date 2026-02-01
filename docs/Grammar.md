@@ -38,13 +38,7 @@ $$
 
         \text{[Term]} &\to \text{[Factor] } \text{(('+' | '-') [Factor])}^* \\
 
-        \text{[Factor]} &\to \text{[Unary]} \text{(('*' | '/') [Unary])}^* \\
-
-        \text{[Unary]} &\to
-        \begin{cases}
-            \text{('!' | '-') [Unary]} \\
-            \text{[Primary]}
-        \end{cases} \\
+        \text{[Factor]} &\to \text{[Primary]} \text{(('*' | '/') [Primary])}^* \\
 
         
 \end{align*}
