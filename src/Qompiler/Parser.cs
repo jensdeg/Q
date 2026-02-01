@@ -95,7 +95,7 @@ public class Parser
 
         if (Match(TokenType.OpenParenthesis))
         {
-            var expr = ParseTerm();
+            var expr = ParseExpression();
             Consume(TokenType.CloseParenthesis);
             return new GroupExpr { Expr = expr };
         }
