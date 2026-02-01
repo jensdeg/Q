@@ -14,9 +14,7 @@ public class Parser
         _tokens = tokens;
 
         while (ReadingTokens)
-        {
             _statements.Add(ParseStatement());
-        }
 
         return _statements;
     }
@@ -27,7 +25,6 @@ public class Parser
     {
         if (Match(TokenType.Print)) return ParsePrintStatement();
         if (Match(TokenType.Var)) return ParseVarStatement();
-
 
         return ParseExprStmt();
     }
@@ -55,7 +52,9 @@ public class Parser
 
     private ExprStmt ParseExprStmt()
     {
-        return new ExprStmt { Expression = ParseExpression() };
+        var expr = ParseExpression();
+        Consume(TokenType.Semicolon);
+        return new ExprStmt { Expression = expr };
     }
 
 
@@ -116,7 +115,7 @@ public class Parser
         if (_index >= _tokens.Count)
             Error($"Unexpected end of tokens");
         if (Peek().Type != type)
-            Error($"UnExpected token: {type}"); // TODO: better error message
+            Error($"Expected: {type}"); // TODO: better error message
         _index++;
     }
 

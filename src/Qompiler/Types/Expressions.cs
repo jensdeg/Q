@@ -1,6 +1,9 @@
 ﻿namespace Qompiler.Types;
 
-public abstract class Expression { }
+public abstract class Expression
+{
+    public TypeInfo Type { get; set; }
+}
 
 public class LiteralExpr : Expression
 {
@@ -21,3 +24,12 @@ public class BinaryExpr : Expression
     public required Expression Right { get; set; }
 }
 
+public enum TypeInfo
+{
+    Unkown = default,
+
+    Number,
+    String,
+
+    Error,
+}
