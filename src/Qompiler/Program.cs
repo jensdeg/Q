@@ -1,10 +1,10 @@
 ﻿using Qompiler;
+using Qompiler.Helpers;
 
 if (args.Length == 0) return;
-var fileContent = File.ReadAllText(args[0]);
-var filename = Path.GetFileName(args[0]);
+(string fileContent, string fileName) = FileManager.GetFile(args[0]);
 
-Console.WriteLine($"Compiling '{filename}'{Environment.NewLine}");
+Console.WriteLine($"Compiling '{fileName}'{Environment.NewLine}");
 var lexer = new Lexer(fileContent);
 var parser = new Parser();
 var analyzer = new SemanticAnalyzer();

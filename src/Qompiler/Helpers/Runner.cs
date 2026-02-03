@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Qompiler.Tools;
+namespace Qompiler.Helpers;
 
 public static class Runner
 {
