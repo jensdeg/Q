@@ -1,4 +1,5 @@
-﻿using Qompiler.Types;
+﻿using Qompiler.Helpers;
+using Qompiler.Types;
 
 namespace Qompiler;
 
@@ -105,17 +106,17 @@ public class Parser
             return new VariableExpr { Name = name };
         }
 
-        Error("error parsing primary"); // TODO: better error message
-        return null;
+        ErrorHandler.Error("error parsing primary"); // TODO: better error message
+        return null!;
     }
 
 
     private void Consume(TokenType type)
     {
         if (_index >= _tokens.Count)
-            Error($"Unexpected end of tokens");
+            ErrorHandler.Error($"Unexpected end of tokens");
         if (Peek().Type != type)
-            Error($"Expected: {type}"); // TODO: better error message
+            ErrorHandler.Error($"Expected: {type}"); // TODO: better error message
         _index++;
     }
 
@@ -135,11 +136,4 @@ public class Parser
     }
 
     private bool ReadingTokens => Peek().Type != TokenType.EOF;
-
-    private static void Error(string message)
-    {
-        Console.Error.WriteLine(message);
-        Environment.Exit(-1);
-    }
-
 }

@@ -5,11 +5,11 @@ var fileContent = File.ReadAllText(args[0]);
 var filename = Path.GetFileName(args[0]);
 
 Console.WriteLine($"Compiling '{filename}'{Environment.NewLine}");
-var lexer = new Lexer();
+var lexer = new Lexer(fileContent);
 var parser = new Parser();
 var analyzer = new SemanticAnalyzer();
 
-var tokens = lexer.Tokenize(fileContent);
+var tokens = lexer.Tokenize();
 
 foreach (var token in tokens)
 {

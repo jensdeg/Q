@@ -1,4 +1,5 @@
-﻿using Qompiler.Types;
+﻿using Qompiler.Helpers;
+using Qompiler.Types;
 
 namespace Qompiler;
 
@@ -6,8 +7,8 @@ public class SemanticAnalyzer
 {
     private readonly Dictionary<string, TypeInfo> _variables = [];
 
-    public List<Statement> Analyze(List<Statement> program) 
-    { 
+    public List<Statement> Analyze(List<Statement> program)
+    {
         foreach (var statement in program)
             AnalyzeStatement(statement);
 
@@ -32,7 +33,7 @@ public class SemanticAnalyzer
         var type = AnalyzeExpression(stmt.Expression);
 
         if (_variables.ContainsKey(stmt.Name))
-            Error("variable already exists");
+            ErrorHandler.Error("variable already exists");
 
         _variables[stmt.Name] = type;
     }
@@ -74,7 +75,7 @@ public class SemanticAnalyzer
         if (_variables.TryGetValue(expr.Name, out var type))
             expr.Type = type;
         else
-            Error("Variable Not Declared");
+            ErrorHandler.Error("Variable Not Declared");
 
         return expr.Type;
     }
@@ -85,10 +86,10 @@ public class SemanticAnalyzer
         var rightType = AnalyzeExpression(binaryExpr.Right);
 
         if (leftType != rightType)
-            Error($"Cant perform operation '{binaryExpr.Operator}' on '{leftType}' and '{rightType}'");
+            ErrorHandler.Error($"Cant perform operation '{binaryExpr.Operator}' on '{leftType}' and '{rightType}'");
 
         if (leftType != TypeInfo.Number)
-            Error($"cant Perform operation '{binaryExpr.Operator}' on '{leftType}'"); /// TODO: allow string concatination
+            ErrorHandler.Error($"cant Perform operation '{binaryExpr.Operator}' on '{leftType}'"); /// TODO: allow string concatination
 
         binaryExpr.Type = leftType;
         return binaryExpr.Type;
@@ -99,10 +100,4 @@ public class SemanticAnalyzer
         groupExpr.Type = AnalyzeExpression(groupExpr.Expr);
         return groupExpr.Type;
     }
-
-    private static void Error(string message)
-    {
-        throw new Exception($"Error: {message}");
-    }
-
 }

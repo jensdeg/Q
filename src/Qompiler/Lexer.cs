@@ -1,19 +1,21 @@
-﻿using Qompiler.Types;
+﻿using Qompiler.Helpers;
+using Qompiler.Types;
 
 namespace Qompiler;
 
-public class Lexer
+public class Lexer(string input)
 {
     private readonly List<Token> _tokens = [];
+    private readonly string _input = input;
 
-    private string _input = string.Empty;
     private int _index = 0;
     private int _line = 1;
+    private int _position = 0;
 
-    public List<Token> Tokenize(string input)
+    private readonly ErrorHandler _errorHandler = new(input);
+
+    public List<Token> Tokenize()
     {
-        _input = input;
-
         while (ReadingFile)
         {
             char c = Peek();
@@ -46,7 +48,7 @@ public class Lexer
                     case '-': AddSimpleToken(TokenType.Minus); break;
                     case '/': AddSimpleToken(TokenType.FSlash); break;
                     default:
-                        Error($"Unexpected character '{c}'");
+                        _errorHandler.LexerError($"Unexpected character '{c}'", _line, _position);
                         break;
                 }
             }
@@ -79,7 +81,7 @@ public class Lexer
             Consume();
 
         if (char.IsLetter(Peek()))
-            Error("Unexpected character in number");
+            _errorHandler.LexerError("Unexpected character in number", _line, _position);
 
         var value = int.Parse(_input[start.._index]);
 
@@ -124,12 +126,16 @@ public class Lexer
 
     private bool ReadingFile => _index < _input.Length;
 
-    private void Consume() => _index++;
+    private void Consume()
+    {
+        _index++;
+        _position++;
+    }
 
     private char Peek(int offset = 0)
     {
         if (_index >= _input.Length)
-            Error($"Unexpected end of file");
+            _errorHandler.LexerError("Unexpected end of file", _line, _position);
         return _input[_index + offset];
     }
 
@@ -138,20 +144,7 @@ public class Lexer
     private void NextLine()
     {
         Consume();
+        _position = 0;
         _line++;
-    }
-
-    private void Error(string message)
-    {
-        var line = _input.Split(Environment.NewLine)[_line - 1];
-
-        Console.Error.WriteLine($" | Error at line '{_line}':");
-        Console.Error.WriteLine(" |    ...");
-        Console.Error.WriteLine($" |    {line}");
-        Console.Error.WriteLine(" |    ...");
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Error.WriteLine($"{message}");
-        Console.ResetColor();
-        Environment.Exit(-1);
     }
 }
