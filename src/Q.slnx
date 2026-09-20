@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="../examples/main.Q" />
+    <File Path="Qompiler/bin/Debug/net10.0/build/main.asm" />
   </Folder>
   <Project Path="Qompiler/Qompiler.csproj" />
 </Solution>

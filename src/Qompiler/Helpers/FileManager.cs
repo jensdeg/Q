@@ -1,6 +1,6 @@
 ﻿namespace Qompiler.Helpers;
 
-public class FileManager
+public static class FileManager
 {
     public static void WriteFile(string filename, string fileExtension, string content)
     {
@@ -8,6 +8,7 @@ public class FileManager
         Directory.CreateDirectory(location);
         var file = Path.Combine(location, $"{filename}.{fileExtension}");
         File.WriteAllText(file, content);
+        Console.WriteLine($"output generated in: {file}");
     }
 
     public static (string Content, string Name) GetFile(string filePath)
@@ -17,7 +18,6 @@ public class FileManager
         if (!filePath.EndsWith(".Q", StringComparison.OrdinalIgnoreCase))
             throw new FileNotFoundException("Not a valid Q file, must end with .Q (or .q)");
 
-        return (File.ReadAllText(filePath), Path.GetFileName(filePath));
+        return (File.ReadAllText(filePath), Path.GetFileNameWithoutExtension(filePath));
     }
-
 }

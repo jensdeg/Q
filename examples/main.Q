@@ -1,5 +1,4 @@
-var iets = 1 + (2 + 3 * 3);
-var test = "hello world";
+var test = "Hello World";
 Print(test);
-var number = 1 + 5;
-Print(number / 5);
+
+Print("hello other world");

@@ -3,23 +3,20 @@ using Qompiler.Types;
 
 namespace Qompiler;
 
-public class Parser
+public class Parser(List<Token> tokens)
 {
     private readonly List<Statement> _statements = [];
 
-    private List<Token> _tokens = [];
+    private readonly List<Token> _tokens = tokens;
     private int _index = 0;
 
-    public List<Statement> Parse(List<Token> tokens)
+    public List<Statement> Parse()
     {
-        _tokens = tokens;
-
         while (ReadingTokens)
             _statements.Add(ParseStatement());
 
         return _statements;
     }
-
 
     /// Statements
     private Statement ParseStatement()
@@ -57,7 +54,6 @@ public class Parser
         Consume(TokenType.Semicolon);
         return new ExprStmt { Expression = expr };
     }
-
 
     /// Expressions
     private Expression ParseExpression() => ParseTerm();
@@ -109,7 +105,6 @@ public class Parser
         ErrorHandler.Error("error parsing primary"); // TODO: better error message
         return null!;
     }
-
 
     private void Consume(TokenType type)
     {

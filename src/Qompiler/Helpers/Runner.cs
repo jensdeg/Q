@@ -11,6 +11,21 @@ public static class Runner
             $"wsl ld {filename}.o -o {filename} && " +
             $"wsl ./{filename}";
 
+        ExecuteBuildCommand(commandToExecute);
+    }
+
+    public static void RunC(string filename)
+    {
+        var commandToExecute = $""""
+            clang -Wno-everything {filename}.c -o main.exe
+            main.exe
+            """";
+
+        ExecuteBuildCommand(commandToExecute);
+    }
+
+    private static void ExecuteBuildCommand(string command)
+    {
         Process cmd = new();
         cmd.StartInfo.FileName = "cmd.exe";
         cmd.StartInfo.RedirectStandardInput = true;
@@ -18,6 +33,6 @@ public static class Runner
         cmd.Start();
 
         cmd.StandardInput.WriteLine($"cd {Environment.CurrentDirectory}/build");
-        cmd.StandardInput.WriteLine(commandToExecute);
+        cmd.StandardInput.WriteLine(command);
     }
 }

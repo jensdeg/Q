@@ -3,18 +3,17 @@ using Qompiler.Types;
 
 namespace Qompiler;
 
-public class SemanticAnalyzer
+public class SemanticAnalyzer(List<Statement> program)
 {
     private readonly Dictionary<string, TypeInfo> _variables = [];
 
-    public List<Statement> Analyze(List<Statement> program)
+    public List<Statement> Analyze()
     {
         foreach (var statement in program)
             AnalyzeStatement(statement);
 
         return program;
     }
-
 
     /// Statements
     private void AnalyzeStatement(Statement stmt)
@@ -33,7 +32,7 @@ public class SemanticAnalyzer
         var type = AnalyzeExpression(stmt.Expression);
 
         if (_variables.ContainsKey(stmt.Name))
-            ErrorHandler.Error("variable already exists");
+            ErrorHandler.Error($"variable '{stmt.Name}' already exists");
 
         _variables[stmt.Name] = type;
     }
@@ -43,7 +42,6 @@ public class SemanticAnalyzer
 
     private void AnalyzeExprStatement(ExprStmt stmt)
         => AnalyzeExpression(stmt.Expression);
-
 
     /// Expressions
     private TypeInfo AnalyzeExpression(Expression expr)

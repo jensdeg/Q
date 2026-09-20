@@ -1,23 +1,18 @@
 ﻿using Qompiler;
+using Qompiler.CodeGen;
 using Qompiler.Helpers;
 
 if (args.Length == 0) return;
 (string fileContent, string fileName) = FileManager.GetFile(args[0]);
 
 Console.WriteLine($"Compiling '{fileName}'{Environment.NewLine}");
-var lexer = new Lexer(fileContent);
-var parser = new Parser();
-var analyzer = new SemanticAnalyzer();
 
-var tokens = lexer.Tokenize();
+var tokens = new Lexer(fileContent).Tokenize();
+var statements = new Parser(tokens).Parse();
+var program = new SemanticAnalyzer(statements).Analyze();
 
-foreach (var token in tokens)
-{
-    Console.WriteLine(token);
-    Console.WriteLine();
-}
+new C(fileName, program).Generate();
 
-var statements = parser.Parse(tokens);
-var program = analyzer.Analyze(statements);
+Runner.RunC(fileName);
 
 Console.WriteLine("Done");
