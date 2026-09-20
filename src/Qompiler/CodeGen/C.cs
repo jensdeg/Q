@@ -44,8 +44,7 @@ public class C(string fileName, List<Statement> program)
         }
         else if (stmt.Expression.Type == TypeInfo.Number)
         {
-            Main.Indent().AppendLine($"""printf("%d", {EmitExpression(stmt.Expression)}\\n);""");
-            Main.Indent().AppendPrintNewLine(this);
+            Main.Indent().AppendLine($"""printf("%d\n", {EmitExpression(stmt.Expression)});""");
         }
     }
 
@@ -64,9 +63,21 @@ public class C(string fileName, List<Statement> program)
     {
         return expr switch
         {
-            LiteralExpr literalExpr => '"' + literalExpr.Value.ToString() + '"',
+            LiteralExpr literalExpr => EmitLiteralExpression(literalExpr),
             VariableExpr varExpr => varExpr.Name.ToString()!,
+            GroupExpr groupExpr => EmitExpression(groupExpr.Expr),
+            BinaryExpr binaryExpr => $"{EmitExpression(binaryExpr.Left)} {binaryExpr.Operator.Literal} {EmitExpression(binaryExpr.Right)}",
             _ => throw new NotSupportedException()
+        };
+    }
+
+    private static string EmitLiteralExpression(LiteralExpr literalExpr)
+    {
+        return literalExpr.Type switch
+        {
+            TypeInfo.String => '"' + literalExpr.Value.ToString() + '"',
+            TypeInfo.Number => literalExpr.Value.ToString()!,
+            _ => throw new NotImplementedException()
         };
     }
 }
