@@ -7,24 +7,24 @@ public abstract class Expression
 
 public class LiteralExpr : Expression
 {
-    public object Value { get; set; }
+    public required object Value { get; init; }
 }
 
 public class VariableExpr : Expression
 {
-    public string Name { get; set; }
+    public required string Name { get; init; }
 }
 
 public class GroupExpr : Expression
 {
-    public Expression Expr { get; set; }
+    public required Expression Expr { get; init; }
 }
 
 public class BinaryExpr : Expression
 {
-    public Expression Left { get; set; }
-    public TokenType Operator { get; set; }
-    public Expression Right { get; set; }
+    public required Expression Left { get; init; }
+    public required TokenType Operator { get; init; }
+    public required Expression Right { get; init; }
 }
 
 public enum TypeInfo
