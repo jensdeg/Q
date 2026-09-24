@@ -2,10 +2,10 @@
 
 public class Token
 {
-    public required TokenType Type { get; set; }
-    public required string Lexeme { get; set; }
-    public object? Value { get; set; }
-    public required int Line { get; set; }
+    public required TokenType Type { get; init; }
+    public required string Lexeme { get; init; }
+    public object? Value { get; private set; }
+    public required int Line { get; init; }
 
     public static Token Create(TokenType type, string lexeme, int line)
         => new() { Type = type, Lexeme = lexeme, Line = line };

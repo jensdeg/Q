@@ -66,7 +66,7 @@ public class C(string fileName, List<Statement> program)
             LiteralExpr literalExpr => EmitLiteralExpression(literalExpr),
             VariableExpr varExpr => varExpr.Name.ToString()!,
             GroupExpr groupExpr => EmitExpression(groupExpr.Expr),
-            BinaryExpr binaryExpr => $"{EmitExpression(binaryExpr.Left)} {binaryExpr.Operator.Literal} {EmitExpression(binaryExpr.Right)}",
+            BinaryExpr binaryExpr => $"{EmitExpression(binaryExpr.Left)} {binaryExpr.Operator.Lexeme} {EmitExpression(binaryExpr.Right)}",
             _ => throw new NotSupportedException()
         };
     }

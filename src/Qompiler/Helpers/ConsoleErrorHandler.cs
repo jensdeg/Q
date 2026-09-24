@@ -1,6 +1,12 @@
 ﻿namespace Qompiler.Helpers;
 
-public class ErrorHandler(string input)
+public interface IErrorHandler
+{
+    public void LexerError(string message, int line, int pos);
+    public void Error(string message);
+}
+
+public class ConsoleErrorHandler(string input) : IErrorHandler
 {
     private readonly string _input = input;
 
@@ -19,7 +25,7 @@ public class ErrorHandler(string input)
         Environment.Exit(-1);
     }
 
-    public static void Error(string message)
+    public void Error(string message)
     {
         Console.WriteLine(message);
         Environment.Exit(-1);

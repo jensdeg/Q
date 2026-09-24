@@ -5,6 +5,8 @@ namespace Qompiler;
 
 public class Parser(List<Token> tokens)
 {
+    public IErrorHandler ErrorHandler { get; set; } = new ConsoleErrorHandler(string.Empty);
+
     private readonly List<Statement> _statements = [];
 
     private readonly List<Token> _tokens = tokens;

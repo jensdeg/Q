@@ -5,6 +5,8 @@ namespace Qompiler;
 
 public class Lexer(string input)
 {
+    public IErrorHandler ErrorHandler { get; set; } = new ConsoleErrorHandler(input);
+
     private readonly List<Token> _tokens = [];
     private readonly string _input = input;
 
@@ -12,7 +14,6 @@ public class Lexer(string input)
     private int _line = 1;
     private int _position = 0;
 
-    private readonly ErrorHandler _errorHandler = new(input);
 
     public List<Token> Tokenize()
     {
@@ -37,20 +38,8 @@ public class Lexer(string input)
 
             else
             {
-                switch (c)
-                {
-                    case ';': AddSimpleToken(TokenType.Semicolon); break;
-                    case '(': AddSimpleToken(TokenType.OpenParenthesis); break;
-                    case ')': AddSimpleToken(TokenType.CloseParenthesis); break;
-                    case '=': AddSimpleToken(TokenType.Equals); break;
-                    case '+': AddSimpleToken(TokenType.Plus); break;
-                    case '*': AddSimpleToken(TokenType.Star); break;
-                    case '-': AddSimpleToken(TokenType.Minus); break;
-                    case '/': AddSimpleToken(TokenType.FSlash); break;
-                    default:
-                        _errorHandler.LexerError($"Unexpected character '{c}'", _line, _position);
-                        break;
-                }
+                try { AddSimpleToken(TokenType.FromLexeme(c)); }
+                catch { ErrorHandler.LexerError($"Unexpected character '{c}'", _line, _position); }
             }
         }
 
@@ -81,7 +70,7 @@ public class Lexer(string input)
             Consume();
 
         if (char.IsLetter(Peek()))
-            _errorHandler.LexerError("Unexpected character in number", _line, _position);
+            ErrorHandler.LexerError("Unexpected character in number", _line, _position);
 
         var value = int.Parse(_input[start.._index]);
 
@@ -135,7 +124,7 @@ public class Lexer(string input)
     private char Peek(int offset = 0)
     {
         if (_index >= _input.Length)
-            _errorHandler.LexerError("Unexpected end of file", _line, _position);
+            ErrorHandler.LexerError("Unexpected end of file", _line, _position);
         return _input[_index + offset];
     }
 

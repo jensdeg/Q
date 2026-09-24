@@ -1,7 +1,12 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="../examples/main.Q" />
-    <File Path="Qompiler/bin/Debug/net10.0/build/main.asm" />
+  </Folder>
+  <Folder Name="/Solution Items/Out/">
+    <File Path="Qompiler/bin/Debug/net10.0/build/main.c" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Qompiler.UnitTest/Qompiler.UnitTest.csproj" Id="d4bab126-8b53-40d0-9ede-3d4ed8a58940" />
   </Folder>
   <Project Path="Qompiler/Qompiler.csproj" />
 </Solution>

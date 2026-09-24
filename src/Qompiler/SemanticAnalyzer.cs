@@ -5,6 +5,8 @@ namespace Qompiler;
 
 public class SemanticAnalyzer(List<Statement> program)
 {
+    public IErrorHandler ErrorHandler { get; set; } = new ConsoleErrorHandler(string.Empty);
+
     private readonly Dictionary<string, TypeInfo> _variables = [];
 
     public List<Statement> Analyze()
