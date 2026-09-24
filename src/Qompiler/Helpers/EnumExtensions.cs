@@ -48,7 +48,7 @@ public static class EnumExtensions
             _ => throw new NotImplementedException()
         };
 
-        public static TokenType FromLexeme(char character) 
+        public static TokenType FromLexeme(char character)
             => FromLexeme(character.ToString());
     }
 }

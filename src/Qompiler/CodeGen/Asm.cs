@@ -17,7 +17,6 @@ public class Asm(string fileName, List<Statement> program)
 
     private int Index = 0;
 
-
     public void Generate()
     {
         // Start
@@ -67,13 +66,12 @@ public class Asm(string fileName, List<Statement> program)
         EmitExpression(stmt.Expression, stmt.Name);
     }
 
-    
     private void EmitExpression(Expression expr, string? variableName = null)
     {
         switch (expr)
         {
             case LiteralExpr literalExpr: EmitLiteralExpression(literalExpr, variableName); break;
-            case VariableExpr varExpr: EmitVarExpression(varExpr); break; 
+            case VariableExpr varExpr: EmitVarExpression(varExpr); break;
             default: throw new NotSupportedException();
         }
     }

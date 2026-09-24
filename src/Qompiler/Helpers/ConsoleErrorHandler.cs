@@ -3,6 +3,7 @@
 public interface IErrorHandler
 {
     public void LexerError(string message, int line, int pos);
+
     public void Error(string message);
 }
 

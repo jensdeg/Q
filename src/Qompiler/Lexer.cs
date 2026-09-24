@@ -14,7 +14,6 @@ public class Lexer(string input)
     private int _line = 1;
     private int _position = 0;
 
-
     public List<Token> Tokenize()
     {
         while (ReadingFile)
@@ -23,19 +22,14 @@ public class Lexer(string input)
 
             if (c == '\n')
                 NextLine();
-
             else if (char.IsWhiteSpace(c))
                 Consume();
-
             else if (c == '"')
                 ReadString();
-
             else if (char.IsLetter(c))
                 ReadIdentifier();
-
             else if (char.IsDigit(c))
                 ReadNumber();
-
             else
             {
                 try { AddSimpleToken(TokenType.FromLexeme(c)); }

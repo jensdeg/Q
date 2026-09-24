@@ -13,7 +13,7 @@ public class Token
     public static Token CreateLiteral(TokenType type, string lexeme, object value, int line)
         => new() { Type = type, Value = value, Lexeme = lexeme, Line = line };
 
-    public readonly static Dictionary<string, TokenType> Keywords = new()
+    public static readonly Dictionary<string, TokenType> Keywords = new()
     {
         { "Print", TokenType.Print },
         { "var", TokenType.Var }

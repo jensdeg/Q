@@ -20,7 +20,6 @@ public class C(string fileName, List<Statement> program)
         Main.Indent().AppendLine("return 0;");
         Main.AppendLine("}");
 
-
         FileManager.WriteFile(fileName, "c", Main.ToString());
     }
 

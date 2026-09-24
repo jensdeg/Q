@@ -18,7 +18,7 @@ public class LexerShould
         '>','&','|','^','%','~','_','@','#','$','€','£'
     ];
 
-    public static TheoryData<char> ValidCharacters => 
+    public static TheoryData<char> ValidCharacters =>
     [
         '(', ')', ';', '=', '+', '-', '*', '/'
     ];
@@ -43,7 +43,7 @@ public class LexerShould
 
         var result = sut.Tokenize();
 
-        result.Should().NotBeEmpty();
+        result.Should().HaveCount(2);
         result.First().Should().BeEquivalentTo(expectedToken);
     }
 }
