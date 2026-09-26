@@ -24,16 +24,14 @@ public class LexerShould
         '(', ')', ';', '=', '+', '-', '*', '/'
     ];
 
-    [Theory]
-    [MemberData(nameof(InvalidCharacters))]
-    public void ErrorWithInvalidCharacter(char character)
+    public static TheoryData<string, IReadOnlyCollection<Token>> Statements => new()
     {
-        var sut = GetLexerSut($"{character}");
-
-        var action = () => sut.Tokenize();
-
-        action.Should().ThrowExactly<ArgumentException>($"Unexpected character '{character}';1;1");
-    }
+        { """Print("Test");""",     TokenFixture.PrintString      },
+        { "Print(12345);",          TokenFixture.PrintNumber      },
+        { """var Test = "Test";""", TokenFixture.VarString        },
+        { "var Test = 12345;",      TokenFixture.VarNumber        },
+        { "1 + 2 - (3 * 4) / 5;",   TokenFixture.BinaryExpression },
+    };
 
     [Theory]
     [MemberData(nameof(ValidCharacters))]
@@ -48,53 +46,25 @@ public class LexerShould
         result.First().Should().BeEquivalentTo(expectedToken);
     }
 
-    [Fact]
-    public void TokenizePrintStatement_String()
+    [Theory]
+    [MemberData(nameof(InvalidCharacters))]
+    public void ErrorWithInvalidCharacter(char character)
     {
-        var sut = GetLexerSut("""Print("Test");""");
+        var sut = GetLexerSut($"{character}");
 
-        var result = sut.Tokenize();
+        var action = () => sut.Tokenize();
 
-        result.Should().Equal(TokenFixture.PrintString);
+        action.Should().ThrowExactly<ArgumentException>($"Unexpected character '{character}';1;1");
     }
 
-    [Fact]
-    public void TokenizePrintStatement_Number()
+    [Theory]
+    [MemberData(nameof(Statements))]
+    public void TokenizeStatements(string input, IReadOnlyCollection<Token> expectedTokens)
     {
-        var sut = GetLexerSut("Print(12345);");
+        var sut = GetLexerSut(input);
 
         var result = sut.Tokenize();
 
-        result.Should().Equal(TokenFixture.PrintNumber);
-    }
-
-    [Fact]
-    public void TokenizeVarStatement_String()
-    {
-        var sut = GetLexerSut("""var Test = "Test";""");
-
-        var result = sut.Tokenize();
-
-        result.Should().Equal(TokenFixture.VarString);
-    }
-
-    [Fact]
-    public void TokenizeVarStatement_Number()
-    {
-        var sut = GetLexerSut("var Test = 12345;");
-
-        var result = sut.Tokenize();
-
-        result.Should().Equal(TokenFixture.VarNumber);
-    }
-
-    [Fact]
-    public void TokenizeExpressionStatement()
-    {
-        var sut = GetLexerSut("1 + 2 - (3 * 4) / 5;");
-
-        var result = sut.Tokenize();
-
-        result.Should().Equal(TokenFixture.BinaryExpression);
+        result.Should().Equal(expectedTokens);
     }
 }
