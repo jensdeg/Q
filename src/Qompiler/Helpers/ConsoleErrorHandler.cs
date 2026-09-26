@@ -16,10 +16,10 @@ public class ConsoleErrorHandler(string input) : IErrorHandler
         var LineOfCode = _input.Split(Environment.NewLine)[line - 1];
 
         Console.Error.WriteLine($" | Error at line '{line}':");
-        Console.Error.WriteLine(" |    ...");
+        Console.Error.WriteLine($" |    ...");
         Console.Error.WriteLine($" |    {LineOfCode}");
         Console.Error.WriteLine($" |    {ErrorIndicator(LineOfCode, pos)}");
-        Console.Error.WriteLine(" |    ...");
+        Console.Error.WriteLine($" |    ...");
         Console.ForegroundColor = ConsoleColor.Red;
         Console.Error.WriteLine(message);
         Console.ResetColor();

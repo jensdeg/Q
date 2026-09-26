@@ -25,6 +25,23 @@ public class Token
             ? $"[{Type}]: '{Lexeme}'"
             : $"[{Type}]: '{Value}'";
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not Token token) return false;
+
+        return
+            Type == token.Type &&
+            Lexeme == token.Lexeme &&
+            Value?.ToString() == token.Value?.ToString() &&
+            Line == token.Line;
+    }
+
+    public override int GetHashCode()
+    {
+        if (Value is not null) return HashCode.Combine(Type, Lexeme, Value, Line);
+        else return HashCode.Combine(Type, Lexeme, Line);
+    }
 }
 
 public enum TokenType

@@ -53,7 +53,7 @@ public class Lexer(string input)
         if (Token.Keywords.TryGetValue(value, out var token))
             AddToken(token, start);
         else
-            AddToken(TokenType.Identifier, start, value);
+            AddTokenLiteral(TokenType.Identifier, start, value);
     }
 
     private void ReadNumber()
@@ -68,7 +68,7 @@ public class Lexer(string input)
 
         var value = int.Parse(_input[start.._index]);
 
-        AddToken(TokenType.Number, start, value);
+        AddTokenLiteral(TokenType.Number, start, value);
     }
 
     private void ReadString()
@@ -84,7 +84,7 @@ public class Lexer(string input)
 
         var value = _input[(start + 1)..(_index - 1)];
 
-        AddToken(TokenType.String, start, value);
+        AddTokenLiteral(TokenType.String, start, value);
     }
 
     private void AddSimpleToken(TokenType type)
@@ -101,7 +101,7 @@ public class Lexer(string input)
         _tokens.Add(Token.Create(type, lexeme, _line));
     }
 
-    private void AddToken(TokenType type, int start, object value)
+    private void AddTokenLiteral(TokenType type, int start, object value)
     {
         var lexeme = GetLexeme(start);
         _tokens.Add(Token.CreateLiteral(type, lexeme, value, _line));

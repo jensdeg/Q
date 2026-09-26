@@ -23,7 +23,7 @@ public static class EnumExtensions
             TokenType.String => "String",
             TokenType.Number => "Number",
             TokenType.Identifier => "Identifier",
-            TokenType.EOF => "EOF",
+            TokenType.EOF => string.Empty,
             _ => throw new NotImplementedException()
         };
 
